@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class CubeMoveEndRot : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class CubeMoveEndRot : MonoBehaviour
     private Vector3 destination;
     public Transform chracter;
 
+    public XRRayInteractor Interactor;
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -19,16 +22,35 @@ public class CubeMoveEndRot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit))
-            {
-                SetDestination(hit.point);
-            }
-        }
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit))
+        //    {
+        //        SetDestination(hit.point);
+        //    }
+        //}
+
+        
+        CheckInputFromeXR();
 
         Move();
+
+
+    }
+
+    public void CheckInputFromeXR()
+    {
+        if (Interactor == null)
+        {
+            return;
+        }
+
+        RaycastHit hit;
+        if (Interactor.TryGetCurrent3DRaycastHit(out hit))
+        {
+            SetDestination(hit.point);
+        }
     }
 
     private void SetDestination(Vector3 dest)

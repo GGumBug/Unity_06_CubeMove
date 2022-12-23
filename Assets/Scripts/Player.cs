@@ -6,10 +6,14 @@ public class Player : MonoBehaviour
 {
     public int maxHp = 100;
     public float hp = 100f;
+    public int heartCount_;
+
+    UIPlayer uiPlayer;
 
     private void Start()
     {
         GameManager.GetInstance().player = this;
+        uiPlayer = UIManager.GetInstance().GetUI("UIPlayer").GetComponent<UIPlayer>();
     }
 
     private void Update()
@@ -18,16 +22,39 @@ public class Player : MonoBehaviour
         for (int i = 0; i < heartCount; i++) 
         {
             var heart = ObjectManager.GetInstance().objList[i];
-            Debug.Log($"i : {i}    dist : {Vector3.Distance(transform.position, heart.transform.position)}");
+            //Debug.Log($"i : {i}    dist : {Vector3.Distance(transform.position, heart.transform.position)}");
             if (Vector3.Distance(transform.position, heart.transform.position) < 5f)
             {
                 hp = maxHp;
+                heartCount_++;
+                uiPlayer.RefreshUI();
+                uiPlayer.heartCount.text = $"Heart : {heartCount_}";
 
-                float randX = Random.Range(-100f, 100f);
-                float randZ = Random.Range(-100f, 100f);
-                heart.transform.position = new Vector3(randX, 0f, randZ);
+                heart.transform.position = ObjectManager.GetInstance().GetGeneratePosition();
             }
-        }       
+        }
+
+        int monsterCount = MonsterManager.GetInstance().monsterList.Count;
+        for (int i = 0; i < monsterCount; i++)
+        {
+            var monster = MonsterManager.GetInstance().monsterList[i];
+            //Debug.Log($"i : {i}    dist : {Vector3.Distance(transform.position, heart.transform.position)}");
+            if (Vector3.Distance(transform.position, monster.transform.position) < 5f)
+            {
+                hp -= 30;
+                uiPlayer.RefreshUI();
+
+                monster.transform.position = MonsterManager.GetInstance().GetMonsterPosition();
+
+                if (hp <= 0)
+                {
+                    hp = 0;
+                    GameManager.GetInstance().Death();
+                }
+            }
+        }
     }
+
+
 
 }

@@ -34,14 +34,32 @@ public class ObjectManager : MonoBehaviour
 
     public void CreateHeart(int count)
     {
-        for (int i = 0; i < count + 1; i++)
+        for (int i = 0; i < count; i++)
         {
-            float randX = Random.Range(-100f, 100f);
-            float randZ = Random.Range(-100f, 100f); 
-            
-            var go = OpenOBJ("Heart");            
-            go.transform.position = new Vector3(randX, 0f, randZ);
+            var go = OpenOBJ("Heart");
+            go.transform.position = GetGeneratePosition();
         }
 
+    }
+
+    public Vector3 GetGeneratePosition()
+    {
+        Vector3 curPos = Vector3.zero;
+
+        while (true)
+        {
+            float width = 180f;
+            float randX = Random.Range(-width/2, width/2);
+
+            float height = 180f;
+            float randZ = Random.Range(-height/2, height/2);
+
+            curPos = new Vector3(randX, 0, randZ);
+            if (Vector3.Distance(transform.position, curPos) > 2f)
+                break;
+        }
+
+
+        return curPos;
     }
 }

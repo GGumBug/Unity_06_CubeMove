@@ -7,6 +7,8 @@ public class UIPlayer : MonoBehaviour
 {
     public Slider playerHp;
 
+    public Text heartCount;
+
     public void RefreshUI()
     {
         playerHp.maxValue = GameManager.GetInstance().player.maxHp;

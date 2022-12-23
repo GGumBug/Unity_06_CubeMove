@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneMoveEndRot : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         GameManager.GetInstance();
         UIManager.GetInstance().OpenUI("UIPlayer");

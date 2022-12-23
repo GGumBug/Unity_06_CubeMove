@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ObjectManager.GetInstance().CreateHeart(5);
+        ObjectManager.GetInstance().CreateHeart(1);
+        MonsterManager.GetInstance().CreateMonster(30);
     }
 
     public static GameManager GetInstance()
@@ -30,12 +31,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        MinusHp();
+        //MinusHp();
     }
 
     void MinusHp()
     {
-        player.hp -= 0.1f;
+        player.hp -= 0.2f;
         UIPlayer uiPlayer = UIManager.GetInstance().GetUI("UIPlayer").GetComponent<UIPlayer>();
         uiPlayer.RefreshUI();
         if (player.hp <= 0)
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Death()
+    public void Death()
     {
         UIManager.GetInstance().OpenUI("UIDeath");
         player.transform.position = Vector3.zero + Vector3.up;
