@@ -10,10 +10,9 @@ public class Player : MonoBehaviour
 
     UIPlayer uiPlayer;
 
-    private void Start()
+    private void Awake()
     {
         GameManager.GetInstance().player = this;
-        uiPlayer = UIManager.GetInstance().GetUI("UIPlayer").GetComponent<UIPlayer>();
     }
 
     private void Update()
@@ -27,6 +26,7 @@ public class Player : MonoBehaviour
             {
                 hp = maxHp;
                 heartCount_++;
+                uiPlayer = GetUIPlayer();
                 uiPlayer.RefreshUI();
                 uiPlayer.heartCount.text = $"Heart : {heartCount_}";
 
@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
             //Debug.Log($"i : {i}    dist : {Vector3.Distance(transform.position, heart.transform.position)}");
             if (Vector3.Distance(transform.position, monster.transform.position) < 5f)
             {
+                uiPlayer = GetUIPlayer();
                 hp -= 30;
                 uiPlayer.RefreshUI();
 
@@ -53,6 +54,13 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    UIPlayer GetUIPlayer()
+    {
+        uiPlayer = UIManager.GetInstance().GetUI("UIPlayer").GetComponent<UIPlayer>();
+
+        return uiPlayer;
     }
 
 
