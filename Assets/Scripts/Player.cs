@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
             if (Vector3.Distance(transform.position, monster.transform.position) < 5f)
             {
                 uiPlayer = GetUIPlayer();
-                hp -= 30;
+                hp -= 5;
                 uiPlayer.RefreshUI();
 
                 monster.transform.position = MonsterManager.GetInstance().GetMonsterPosition();

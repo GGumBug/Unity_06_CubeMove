@@ -12,8 +12,8 @@ public class Monster : MonoBehaviour
 
     private void Start()
     {
-        //float randSpeedFactor = Random.Range(1 - speedFactor, 1 + speedFactor);
-        //speed *= randSpeedFactor;
+        float randSpeedFactor = Random.Range(1 - speedFactor, 1 + speedFactor);
+        speed *= randSpeedFactor;
     }
 
     public void SetTarget(Transform tr)
@@ -34,5 +34,12 @@ public class Monster : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 2f * Time.deltaTime);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<AttackBase>())
+        {
+            transform.position = MonsterManager.GetInstance().GetMonsterPosition();
+        }
 
+    }
 }
